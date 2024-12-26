@@ -103,15 +103,3 @@ class ErrorPage extends StatelessWidget {
     );
   }
 }
-
-
-
-// final isLoggingIn = state.uri.toString() == AppRoutes.signInScreen ||
-        //     state.uri.toString() == AppRoutes.signUpScreen;
-
-        // if (!isLoggedIn && !isLoggingIn) {
-        //   return AppRoutes.signInScreen; // Not logged in, redirect to login
-        // }
-        // if (isLoggedIn && isLoggingIn) {
-        //   return AppRoutes.homeScreen; // Logged in, redirect to home
-        // }
