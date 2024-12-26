@@ -12,12 +12,85 @@ import '../router/app_routes.dart';
 class SignUpScreen extends ConsumerWidget {
   SignUpScreen({super.key});
 
-  final signUpKey = GlobalKey<FormState>();
-  final TextEditingController userNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPassworkController =
+  final _signUpKey = GlobalKey<FormState>();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
       TextEditingController();
+
+  Widget _buildTitle() {
+    return Text(
+      'Sign Up',
+      style: TextStyle(
+        fontSize: 40,
+        fontWeight: FontWeight.bold,
+        color: whiteColor,
+      ),
+    );
+  }
+
+  Widget _buildInputField({
+    required TextEditingController controller,
+    required String hintText,
+    required String? Function(String?) validator,
+    bool isPasswordObscure = false,
+  }) {
+    return InputTextField(
+      controller: controller,
+      hintText: hintText,
+      isPasswordObscure: isPasswordObscure,
+      validator: validator,
+    );
+  }
+
+  Widget _buildAuthButton({
+    required String label,
+    required VoidCallback onTap,
+    required Color backgroundColor,
+  }) {
+    return PrimaryButton(
+      onTap: onTap,
+      width: double.infinity,
+      label: label,
+      backGroundColor: backgroundColor,
+      alignment: Alignment.center,
+      borderRadius: 30,
+    );
+  }
+
+  Widget _buildSignInRedirect(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Already have an account?",
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: lightGreyColor,
+          ),
+        ),
+        InkWell(
+          onTap: () => context.go(AppRoutes.signInScreen),
+          child: Container(
+            height: 30,
+            width: 70,
+            alignment: Alignment.center,
+            child: const Text(
+              "Sign In",
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: yellowColor,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authViewModel = ref.watch(authViewModelProvider.notifier);
@@ -27,141 +100,94 @@ class SignUpScreen extends ConsumerWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Sign Un'),
+          title: const Text('Sign Up'),
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(20.0),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
             child: Form(
-              key: signUpKey,
+              key: _signUpKey,
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Sign Up',
-                      style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: whiteColor),
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildTitle(),
+                  const SizedBox(height: 24),
+                  _buildInputField(
+                    controller: _userNameController,
+                    hintText: 'Name',
+                    validator: InputValidator.validateInputField,
+                  ),
+                  const SizedBox(height: 20),
+                  _buildInputField(
+                    controller: _emailController,
+                    hintText: 'Email',
+                    validator: InputValidator.validateEmail,
+                  ),
+                  const SizedBox(height: 20),
+                  _buildInputField(
+                    controller: _passwordController,
+                    hintText: 'Password',
+                    isPasswordObscure: true,
+                    validator: InputValidator.validatePassword,
+                  ),
+                  const SizedBox(height: 20),
+                  _buildInputField(
+                    controller: _confirmPasswordController,
+                    hintText: 'Confirm Password',
+                    isPasswordObscure: true,
+                    validator: InputValidator.validatePassword,
+                  ),
+                  const SizedBox(height: 48),
+                  authState.when(
+                    data: (_) => _buildAuthButton(
+                      label: 'Sign Up',
+                      onTap: () async {
+                        if (_signUpKey.currentState!.validate()) {
+                          await authViewModel.registerUser(
+                            context: context,
+                            userName: _userNameController.text,
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                            confirmPassword: _confirmPasswordController.text,
+                          );
+                        }
+                      },
+                      backgroundColor: yellowColor,
                     ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    InputTextField(
-                      controller: userNameController,
-                      hintText: 'Name',
-                      validator: (value) =>
-                          InputValidator.validateInputField(value),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    InputTextField(
-                      controller: emailController,
-                      hintText: 'Email',
-                      validator: (value) => InputValidator.validateEmail(value),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    InputTextField(
-                        controller: passwordController,
-                        hintText: 'Password',
-                        isPasswordObscure: true,
-                        validator: (value) =>
-                            InputValidator.validatePassword(value)),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    InputTextField(
-                        controller: confirmPassworkController,
-                        hintText: 'Confirm Password',
-                        isPasswordObscure: true,
-                        validator: (value) =>
-                            InputValidator.validatePassword(value)),
-                    const SizedBox(
-                      height: 48,
-                    ),
-                    authState.when(
-                      data: (_) => PrimaryButton(
-                        onTap: () async {
-                          if (signUpKey.currentState!.validate()) {
-                            await authViewModel.registerUser(
-                              context: context,
-                              userName: userNameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
-                              confirmPassword: confirmPassworkController.text,
-                            );
-                          }
-                        },
-                        width: double.infinity,
-                        label: 'Sign Un',
-                        backGroundColor: yellowColor,
-                        alignment: Alignment.center,
-                        borderRadius: 30,
-                      ),
-                      loading: () => const CircularProgressIndicator(),
-                      error: (error, _) => Column(
-                        children: [
-                          Text(
-                            'Something went wrong! try again',
-                            style: const TextStyle(color: Colors.red),
-                          ),
-                          PrimaryButton(
-                            onTap: () async {
-                              if (signUpKey.currentState!.validate()) {
-                                await authViewModel.registerUser(
-                                  context: context,
-                                  userName: userNameController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  confirmPassword:
-                                      confirmPassworkController.text,
-                                );
-                              }
-                            },
-                            width: double.infinity,
-                            label: 'Sign Up',
-                            backGroundColor: yellowColor,
-                            alignment: Alignment.center,
-                            borderRadius: 30,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 18),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    loading: () => const CircularProgressIndicator(),
+                    error: (error, _) => Column(
                       children: [
-                        Text(
-                          "Already have an account?",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: lightGreyColor,
-                          ),
+                        const Text(
+                          'Something went wrong! Try again.',
+                          style: TextStyle(color: Colors.red),
                         ),
-                        InkWell(
-                          onTap: () => context.go(AppRoutes.signInScreen),
-                          child: Container(
-                            height: 30,
-                            width: 70,
-                            alignment: Alignment.center,
-                            child: const Text(
-                              "Sign In",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: yellowColor,
-                              ),
-                            ),
-                          ),
+                        _buildAuthButton(
+                          label: 'Sign Up',
+                          onTap: () async {
+                            if (_signUpKey.currentState!.validate()) {
+                              await authViewModel.registerUser(
+                                context: context,
+                                userName: _userNameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                confirmPassword:
+                                    _confirmPasswordController.text,
+                              );
+                            }
+                          },
+                          backgroundColor: yellowColor,
                         ),
                       ],
                     ),
-                  ]),
-            )),
+                  ),
+                  const SizedBox(height: 18),
+                  _buildSignInRedirect(context),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

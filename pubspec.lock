@@ -182,14 +182,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0"
-  custom_lint_builder:
-    dependency: transitive
-    description:
-      name: custom_lint_builder
-      sha256: "42cdc41994eeeddab0d7a722c7093ec52bd0761921eeb2cbdbf33d192a234759"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.0"
   custom_lint_core:
     dependency: transitive
     description:
@@ -230,30 +222,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.1"
-  firebase_app_check:
-    dependency: "direct main"
-    description:
-      name: firebase_app_check
-      sha256: a43785ac59b3a7dc274c80369e36568dac0cda1122f42faa6ea76149e4953737
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.1+7"
-  firebase_app_check_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_app_check_platform_interface
-      sha256: c350d1a550228d21eafc964648f93224d473e75d7152af651be72a95e5a9fd27
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0+41"
-  firebase_app_check_web:
-    dependency: transitive
-    description:
-      name: firebase_app_check_web
-      sha256: "0ee99f137b91ececce78230a4ce357a6fb694d7e8f3037ac22b96c9025c6c9a5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0+3"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -365,14 +333,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.6.2"
-  hotreloader:
-    dependency: transitive
-    description:
-      name: hotreloader
-      sha256: ed56fdc1f3a8ac924e717257621d09e9ec20e308ab6352a73a50a1d7a4d9158e
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.2.0"
   http_parser:
     dependency: transitive
     description:
@@ -518,7 +478,7 @@ packages:
     source: hosted
     version: "0.5.8"
   riverpod_annotation:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: riverpod_annotation
       sha256: e14b0bf45b71326654e2705d462f21b958f987087be850afd60578fcd502d1b8
@@ -530,14 +490,6 @@ packages:
     description:
       name: riverpod_generator
       sha256: "63546d70952015f0981361636bf8f356d9cfd9d7f6f0815e3c07789a41233188"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.6.3"
-  riverpod_lint:
-    dependency: "direct main"
-    description:
-      name: riverpod_lint
-      sha256: "83e4caa337a9840469b7b9bd8c2351ce85abad80f570d84146911b32086fbd99"
       url: "https://pub.dev"
     source: hosted
     version: "2.6.3"
@@ -602,14 +554,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
-  stream_transform:
-    dependency: transitive
-    description:
-      name: stream_transform
-      sha256: ad47125e588cfd37a9a7f86c7d6356dde8dfe89d071d293f80ca9e9273a33871
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
   string_scanner:
     dependency: transitive
     description:

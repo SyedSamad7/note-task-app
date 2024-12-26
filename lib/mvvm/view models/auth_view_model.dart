@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:notes_task_app/constants/colors.dart';
 import 'package:notes_task_app/mvvm/repositories/auth_repo.dart';
 import 'package:notes_task_app/router/app_routes.dart';
 
@@ -39,7 +40,8 @@ class AuthViewModel extends StateNotifier<AsyncValue<void>> {
       await _authRepository.registerUser(user);
       state = const AsyncValue.data(null);
       _showSnackbar(context, 'Registration successful. Please log in.');
-      context.go(AppRoutes.homeScreen);
+
+      context.go(AppRoutes.signInScreen);
     } catch (e, stackTrace) {
       state = AsyncValue.error(e.toString(), stackTrace);
       log('Error registering user: $e');
@@ -77,7 +79,15 @@ class AuthViewModel extends StateNotifier<AsyncValue<void>> {
 
   void _showSnackbar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      SnackBar(
+          backgroundColor: yellowColor,
+          content: Text(
+            message,
+            style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+                color: darkGreyColor),
+          )),
     );
   }
 }
