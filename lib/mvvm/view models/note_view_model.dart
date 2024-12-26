@@ -14,40 +14,39 @@ class NoteViewModel extends StateNotifier<AsyncValue<List<NoteModel>>> {
 
   Future<void> fetchAllNotes() async {
     try {
-      state = const AsyncValue.loading(); // Set loading state
+      state = const AsyncValue.loading();
       final notes = await _noteRepository.fetchAllNotes();
-      state = AsyncValue.data(notes); // Set data state
+      state = AsyncValue.data(notes);
     } catch (e, stackTrace) {
-      state = AsyncValue.error(e, stackTrace); // Set error state
+      state = AsyncValue.error(e, stackTrace);
     }
   }
 
   Future<void> addNote(BuildContext context, NoteModel note) async {
     try {
       final currentNotes = state.asData?.value ?? [];
-      state = const AsyncValue.loading(); // Set loading state
+      state = const AsyncValue.loading();
       await _noteRepository.addNote(note);
-      state = AsyncValue.data([note, ...currentNotes]); // Add new note
+      state = AsyncValue.data([note, ...currentNotes]);
       context.go(AppRoutes.homeScreen);
     } catch (e, stackTrace) {
-      state = AsyncValue.error(e, stackTrace); // Set error state
+      state = AsyncValue.error(e, stackTrace);
     }
   }
 
   Future<void> deleteNoteById(String id) async {
     try {
       final currentNotes = state.asData?.value ?? [];
-      state = const AsyncValue.loading(); // Set loading state
+      state = const AsyncValue.loading();
       await _noteRepository.deleteNoteById(id);
       state =
           AsyncValue.data(currentNotes.where((note) => note.id != id).toList());
     } catch (e, stackTrace) {
-      state = AsyncValue.error(e, stackTrace); // Set error state
+      state = AsyncValue.error(e, stackTrace);
     }
   }
 }
 
-// Riverpod provider for NoteViewModel
 final noteViewModelProvider =
     StateNotifierProvider<NoteViewModel, AsyncValue<List<NoteModel>>>((ref) {
   return NoteViewModel(NoteRepository());

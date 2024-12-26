@@ -31,12 +31,14 @@ class SignInScreen extends ConsumerWidget {
     required TextEditingController controller,
     required String hintText,
     required String? Function(String?) validator,
+    int maxlines = 1,
     bool isPasswordObscure = false,
   }) {
     return InputTextField(
       controller: controller,
       hintText: hintText,
       isPasswordObscure: isPasswordObscure,
+      maxLines: maxlines,
       validator: validator,
     );
   }
